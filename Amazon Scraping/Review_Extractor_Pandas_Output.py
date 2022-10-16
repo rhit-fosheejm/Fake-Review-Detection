@@ -64,6 +64,7 @@ def get_review_text(soup):
 # Extracts date & country of each review
 def get_date_and_country(soup):
     Review_Info = soup.findAll("span", {"data-hook":"review-date"})
+    #print('Review Info: ' , Review_Info)
     Country_And_Date = []
     for i in range(0,len(Review_Info)):
         Country_And_Date.append(Review_Info[i].get_text())
@@ -87,7 +88,7 @@ HEADERS = ({'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KH
 
 ### Main Code
 # input to open statement is txt file with review-page-urls one per line
-with open("CompleteSetOfReviewPages - Copy.txt",'r') as urllist:
+with open("C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ReviewPageURLs.txt",'r') as urllist:
     
     #create large data frame
     allReviews = pd.DataFrame()
@@ -111,13 +112,14 @@ with open("CompleteSetOfReviewPages - Copy.txt",'r') as urllist:
         ASIN_in_list = [url[starting_index:ending_index]] *10
 
         #create pandas data frame & assign scrapable data - ASIN & product_name & rating & text
-        reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text', 'Date', 'Country','asin'])
+        #reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text', 'Date', 'Country','asin'])
+        reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text','asin'])
         product_name_list = get_product_name(soup)
         product_rating_list = get_review_ratings(soup)
         product_review_list = get_review_text(soup)
         product_date_country_list = product_date_list, product_country_list = get_date_and_country(soup)
         for i in range(len(product_name_list)):
-            #list_row = [product_name_list[i], product_rating_list[i], product_review_list[i], product_date_list[i], ASIN_in_list[i]]
+            #list_row = [product_name_list[i], product_rating_list[i], product_review_list[i], ASIN_in_list[i]]
             list_row = [product_name_list[i], product_rating_list[i], product_review_list[i], product_date_list[i], product_country_list[i], ASIN_in_list[i]]
             reviewData.loc[len(reviewData)] = list_row 
 
@@ -130,7 +132,7 @@ with open("CompleteSetOfReviewPages - Copy.txt",'r') as urllist:
             print(reviewData)
 
             #updated how to join together dataframes due to pandas version update
-            reviewData.to_csv("PrioritizedData_50_reviews_withDate.csv", mode ='a', index = False, header =False)
+            reviewData.to_csv("C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ReviewData.csv", mode ='a', index = False, header =False)
 
             # update url counter for output parsing
             counter += 1

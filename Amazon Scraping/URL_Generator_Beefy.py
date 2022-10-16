@@ -19,7 +19,7 @@ HEADERS = ({'User-Agent':
 #URL = 'https://www.amazon.com/Farberware-Dishwasher-Nonstick-Straining-Champagne/dp/B00XADOTDS/ref=sr_1_9?crid=51QFBA2SENEU&keywords=pot&qid=1655824018&sprefix=pot%2Caps%2C259&sr=8-9'
 
 # typically amz.txt, is the /dp/BKJSGOJAIG links in file
-with open('PrioritizedReviewPageURLs.txt', 'r') as urllist: 
+with open('C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ProductURLs.txt', 'r') as urllist: 
     # time.sleep(2)
     # url_counter for output parsing
     url_counter = 1
@@ -103,7 +103,7 @@ with open('PrioritizedReviewPageURLs.txt', 'r') as urllist:
         grabbed_all_reviews = False
         # open urls.txt in write
         # usually is urls.txt below fyi
-        file = open("BlogNonblogRPURLs.txt", 'a')
+        file = open("C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ReviewPageURLs.txt", 'a')
         # write original url to opened file
         file.write(Review_Links + "\n")
         # counter for stripped url_links verified page numbers

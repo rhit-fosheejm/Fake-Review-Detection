@@ -1,19 +1,13 @@
 
-# Description: Scrapes Reviews (ASIN & product_name & rating & text), stores in dataframe, writes to file for model input
+# Description: Scrapes Reviews and stores in dataframe, writes to file for model input
 # Input: review page urls in txt file, one url per line
 # Output: csv of reviews storing a dataframe
 
 # import statements
-#from selectorlib import Extractor
 import requests, time
-#import json 
 from time import sleep
-#import csv
-#from dateutil import parser as dateparser
 from bs4 import BeautifulSoup 
 import pandas as pd
-#from sympy import Product
-#import re
 import sys
 
 ### Getter Functions
@@ -47,8 +41,6 @@ def get_review_ratings(soup):
 # Extracts body of each review
 def get_review_text(soup):
     Review_Text = soup.findAll("span", {"class" : "review-text"})
-    #Another way to grab the review text:
-    #Review_Text = soup.findAll("span", {"data-hook" : "review-body"}) 
     Description = []
     for i in range(0,len(Review_Text)):
         Description.append(Review_Text[i].get_text())
@@ -113,18 +105,14 @@ with open("C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ReviewPageURL
 
         #create pandas data frame & assign scrapable data - ASIN & product_name & rating & text
         reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text', 'Date', 'Country','asin'])
-        #reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text','asin'])
         product_name_list = get_product_name(soup)
         product_rating_list = get_review_ratings(soup)
         product_review_list = get_review_text(soup)
         product_date_country_list = product_date_list, product_country_list = get_date_and_country(soup)
         for i in range(len(product_name_list)):
-            #list_row = [product_name_list[i], product_rating_list[i], product_review_list[i], ASIN_in_list[i]]
             list_row = [product_name_list[i], product_rating_list[i], product_review_list[i], product_date_list[i], product_country_list[i], ASIN_in_list[i]]
             reviewData.loc[len(reviewData)] = list_row 
 
-        #reviewData["Name"] = get_reviewer_names(soup)                          // method yields indexError due to scraping too few names & not is used in models
-        #reviewData["Title"] = get_review_titles(soup)                          // method yields indexError due to scraping too few titles & not is used in models
 
         # display reviews & scraping progress
         print(" ------- url #:", counter, " -------\n")

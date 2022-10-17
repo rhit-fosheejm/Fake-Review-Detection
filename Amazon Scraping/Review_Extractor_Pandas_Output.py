@@ -112,8 +112,8 @@ with open("C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ReviewPageURL
         ASIN_in_list = [url[starting_index:ending_index]] *10
 
         #create pandas data frame & assign scrapable data - ASIN & product_name & rating & text
-        #reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text', 'Date', 'Country','asin'])
-        reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text','asin'])
+        reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text', 'Date', 'Country','asin'])
+        #reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text','asin'])
         product_name_list = get_product_name(soup)
         product_rating_list = get_review_ratings(soup)
         product_review_list = get_review_text(soup)

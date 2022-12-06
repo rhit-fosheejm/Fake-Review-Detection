@@ -38,6 +38,15 @@ def get_review_ratings(soup):
         Rating.append(Star_Rating[i].get_text())
     return Rating
 
+    # Extracts whether a review has a verified purchase tag
+def get_verified_purchase(soup):
+    VP = soup.findAll("span", {"data-hook" : "avp-badge" }) 
+    Verified_Purchase = []
+    for i in range(0,len(VP)):
+        print(VP[i].get_text())
+        Verified_Purchase.append(VP[i].get_text())
+    return Verified_Purchase
+
 # Extracts body of each review
 def get_review_text(soup):
     Review_Text = soup.findAll("span", {"class" : "review-text"})
@@ -104,13 +113,17 @@ with open("C:/Users/fosheejm/Fake-Review-Detection/Amazon Scraping/ReviewPageURL
         ASIN_in_list = [url[starting_index:ending_index]] *10
 
         #create pandas data frame & assign scrapable data - ASIN & product_name & rating & text
-        reviewData = pd.DataFrame(columns=['Product', 'Rating', 'Text', 'Date', 'Country','asin'])
+        #reviewData = pd.DataFrame(columns=['Product', 'Reviewer Name', 'Rating', 'Text', 'Date', 'Country','asin', 'Verified_Purchase'])
+        reviewData = pd.DataFrame(columns=['Product', 'Reviewer Name', 'Rating', 'Text', 'Date', 'Country','asin'])
         product_name_list = get_product_name(soup)
+        product_reviewer_name_list = get_reviewer_names(soup)
         product_rating_list = get_review_ratings(soup)
         product_review_list = get_review_text(soup)
         product_date_country_list = product_date_list, product_country_list = get_date_and_country(soup)
+        #product_verified_purchase_list = get_verified_purchase(soup)
         for i in range(len(product_name_list)):
-            list_row = [product_name_list[i], product_rating_list[i], product_review_list[i], product_date_list[i], product_country_list[i], ASIN_in_list[i]]
+            #list_row = [product_name_list[i], product_reviewer_name_list[i], product_rating_list[i], product_review_list[i], product_date_list[i], product_country_list[i], ASIN_in_list[i], product_verified_purchase_list[i]]
+            list_row = [product_name_list[i], product_reviewer_name_list[i], product_rating_list[i], product_review_list[i], product_date_list[i], product_country_list[i], ASIN_in_list[i]]
             reviewData.loc[len(reviewData)] = list_row 
 
 
